@@ -47,7 +47,7 @@ def print_grid(grid, Animate=False):
         # move cursor up to overwrite
         sys.stdout.write(f"\033[{len(grid) + 1}A")
         sys.stdout.flush()
-        time.sleep(0.01)
+        time.sleep(0.3)
 
 
 def get_h(p1, p2):
@@ -57,17 +57,28 @@ def get_h(p1, p2):
 
 
 def get_neighbours(pos, grid):
-    positions = [(0, -1), (1, 0), (0, 1), (-1, 0)]  # up, right, left, down
+    neighbours = []
     total_rows = len(grid)
     total_cols = len(grid[0])
-    neighbours = []
-    for x, y in positions:
-        dx = x + pos[0]
-        dy = y + pos[1]
-        if 0 <= dx < total_cols and 0 <= dy < total_rows:
-            cell = grid[dy][dx]
-            if cell != "#":
-                neighbours.append((dx, dy))
+    for dx in [-1, 0, 1]:
+        for dy in [-1, 0, 1]:
+            if dx == 0 and dy == 0:
+                continue
+            x = pos[0] + dy
+            y = pos[1] + dx
+            if 0 <= x < total_cols and 0 <= y < total_rows:
+                cell = grid[y][x]
+                if cell != "#" and cell != "!" and cell != "@":
+                    neighbours.append((x, y))
+
+    # positions = [(0, -1), (1, 0), (0, 1), (-1, 0)]  # up, right, left, down
+    # for x, y in positions:
+    #     dx = x + pos[0]
+    #     dy = y + pos[1]
+    #     if 0 <= dx < total_cols and 0 <= dy < total_rows:
+    #         cell = grid[dy][dx]
+    #         if cell != "#":
+    #             neighbours.append((dx, dy))
     return neighbours
 
 
